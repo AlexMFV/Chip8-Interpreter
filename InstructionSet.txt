@@ -1,0 +1,39 @@
+Basic instructions:
+
+00E0 (clear screen)                                                         Implemented
+1NNN (jump)                                                                 Implemented
+6XNN (set register VX)
+7XNN (add value to register VX)
+ANNN (set index register I)
+DXYN (display/draw)
+
+Advanced/Optional instructions:
+
+0NNN: Execute machine language routinePermalink
+00EE and 2NNN: SubroutinesPermalink
+3XNN, 4XNN, 5XY0 and 9XY0: SkipPermalink
+3XNN will skip one instruction
+5XY0 skips if the values in VX and VY are equal
+8XY0: SetPermalink
+8XY1: Binary ORPermalink
+8XY2: Binary ANDPermalink
+8XY3: Logical XORPermalink
+8XY4: AddPermalink
+8XY5 and 8XY7: SubtractPermalink
+8XY5 sets VX to the result of VX - VY
+8XY7 sets VX to the result of VY - VX
+8XY6 and 8XYE: ShiftPermalink
+BNNN: Jump with offsetPermalink
+CXNN: RandomPermalink
+EX9E and EXA1: Skip if keyPermalink
+EX9E will skip one instruction (increment PC by 2)
+EXA1 skips if the key corresponding to the value in VX is not pressed.
+FX07, FX15 and FX18: TimersPermalink
+FX07 sets VX to the current value of the delay timer
+FX15 sets the delay timer to the value in VX
+FX18 sets the sound timer to the value in VX
+FX1E: Add to indexPermalink
+FX0A: Get keyPermalink
+FX29: Font characterPermalink
+FX33: Binary-coded decimal conversionPermalink
+FX55 and FX65: Store and load memoryPermalink
