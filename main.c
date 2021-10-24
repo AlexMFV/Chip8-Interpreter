@@ -15,7 +15,7 @@ int main()
 
     //Opens the ROM file (make this dynamic later inside "rom.h")
     FILE *fs;
-    fs = fopen("ibm.ch8", "rb");
+    fs = fopen("spaceinvaders.ch8", "rb");
     LoadROM(fs);
     fclose(fs);
 

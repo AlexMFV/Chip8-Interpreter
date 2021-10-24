@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "screen.h"
+#include <time.h>
 
 #define MEMSIZE 4096
 
@@ -36,6 +37,7 @@ void LoadROM(FILE *fs)
 {
     //Reads the ROM to the memory starting at address 0x200 (512 dec) until the end of the memory
     fread(memory+0x200, 1, MEMSIZE-0x200, fs);
+    srand(time(NULL)); //Initializes the random component
 }
 
 void C8Fetch()
@@ -54,6 +56,22 @@ void C8Decode()
     if(opcode >> 12 == 0x1)
         pc = (opcode & 0x0fff);
 
+    //3XNN - Skips one instruction if v[x] == NN
+    if(opcode >> 12 == 0x3 && v[(opcode & 0xf00) >> 8] == (opcode & 0xff))
+        pc += 2;
+    
+    //4XNN - Skips one instruction if v[x] != NN
+    if(opcode >> 12 == 0x4 && v[(opcode & 0xf00) >> 8] != (opcode & 0xff))
+        pc += 2;
+    
+    //5XY0 - Skips one instruction if v[x] == v[y]
+    if(opcode >> 12 == 0x5 && v[(opcode & 0xf00) >> 8] == v[(opcode & 0xf0) >> 4])
+        pc += 2;
+
+    //9XY0 - Skips one instruction if v[x] != v[y]
+    if(opcode >> 12 == 0x9 && v[(opcode & 0xf00) >> 8] != v[(opcode & 0xf0) >> 4])
+        pc += 2;
+
     //6XNN - Set the register V[X] to NN
     if(opcode >> 12 == 0x6)
         v[(opcode & 0xf00) >> 8] = (opcode & 0xff);
@@ -62,9 +80,66 @@ void C8Decode()
     if(opcode >> 12 == 0x7)
         v[(opcode & 0xf00) >> 8] += (opcode & 0xff);
 
+    //8XY0 - Set v[x] to the value of v[y]
+    if(opcode >> 12 == 0x8)
+        v[(opcode & 0xf00) >> 8] = v[(opcode & 0xf0) >> 4];
+
+    //8XY1 - Set v[x] to the value of v[x] | v[y]
+    if(opcode >> 12 == 0x8)
+        v[(opcode & 0xf00) >> 8] = (v[(opcode & 0xf00) >> 8] | v[(opcode & 0xf0) >> 4]);
+
+    //8XY2 - Set v[x] to the value of v[x] & v[y]
+    if(opcode >> 12 == 0x8)
+        v[(opcode & 0xf00) >> 8] = (v[(opcode & 0xf00) >> 8] & v[(opcode & 0xf0) >> 4]);
+
+    //8XY3 - Set v[x] to the value of v[x] ^ v[y]
+    if(opcode >> 12 == 0x8)
+        v[(opcode & 0xf00) >> 8] = (v[(opcode & 0xf00) >> 8] ^ v[(opcode & 0xf0) >> 4]);
+
+    //8XY4 - Set v[x] to the value of v[x] + v[y]
+    if(opcode >> 12 == 0x8)
+    {
+        if((v[(opcode & 0xf00) >> 8] + v[(opcode & 0xf0) >> 4]) > 255)
+            v[0xf] = 0x1;
+        else
+            v[0xf] = 0x0;
+        v[(opcode & 0xf00) >> 8] = (v[(opcode & 0xf00) >> 8] + v[(opcode & 0xf0) >> 4]);
+    }
+
+    //8XY5 - Set v[x] to the value of v[x] - v[y]. Affecting the v[0xf] flag
+    if(opcode >> 12 == 0x8)
+    {
+        if(v[(opcode & 0xf00) >> 8] > v[(opcode & 0xf0) >> 4])
+            v[0xf] = 0x1;
+        else
+            v[0xf] = 0x0;
+        v[(opcode & 0xf00) >> 8] = (v[(opcode & 0xf00) >> 8] - v[(opcode & 0xf0) >> 4]);
+    }
+
+    //8XY7 - Set v[x] to the value of v[y] - v[x]. Affecting the v[0xf] flag
+    if(opcode >> 12 == 0x8)
+    {
+        if(v[(opcode & 0xf0) >> 4] > v[(opcode & 0xf00) >> 8])
+            v[0xf] = 0x1;
+        else
+            v[0xf] = 0x0;
+        v[(opcode & 0xf00) >> 8] = (v[(opcode & 0xf0) >> 4] - v[(opcode & 0xf00) >> 8]);
+    }
+
+    //8XY6 and 8XYE ambiguous instruction, not done for now
+
     //ANNN - Set index of Ireg, to value of NNN
     if(opcode >> 12 == 0x0a)
         ireg = (opcode & 0xfff);
+
+    //BNNN ambiguous instruction, not done for now
+
+    //CXNN - Generate a random number between 0 and NN and do a (generatedNum & NN)
+    if(opcode >> 12 == 0x0c)
+    {
+        unsigned char num = (rand() % ((opcode & 0xff) + 1));
+        v[(opcode & 0xf00) >> 8] = (num & (opcode & 0xff));
+    }
 
     //DXYN - Draw sprites to screen
     if(opcode >> 12 == 0x0d)
@@ -79,15 +154,15 @@ void C8Decode()
             unsigned char data = memory[ireg + i];
             for(int j = 0; j < 8; j++)
             {
-                if(display[x+(8-j)][y+i] == true && ((data >> j) & 0x01) == 0x1) //?
+                if(display[x+(7-j)][y+i] == true && ((data >> j) & 0x01) == 0x1) //?
                 {
-                    display[x+(8-j)][y+i] = false;
+                    display[x+(7-j)][y+i] = false;
                     v[0xf] = 0x1;
                 }
                 else
                 {
-                    if(display[x+(8-j)][y+i] == false && ((data >> j) & 0x01) == 0x1)
-                        display[x+(8-j)][y+i] = true;
+                    if(display[x+(7-j)][y+i] == false && ((data >> j) & 0x01) == 0x1)
+                        display[x+(7-j)][y+i] = true;
                 }
 
                 if(x+j+1 > 63)
@@ -97,6 +172,40 @@ void C8Decode()
                 break;
         }
     }
+
+    //FX07 - Sets register v[x] to the values of the delay timer
+    if(opcode >> 12 == 0x0f && (opcode & 0xFF) == 0x07)
+        v[(opcode & 0xf00) >> 8] = t_delay;
+
+    //FX15 - Sets the delay timer to the value of v[x]
+    if(opcode >> 12 == 0x0f && (opcode & 0xFF) == 0x0f)
+        t_delay = v[(opcode & 0xf00) >> 8];
+
+    //FX18 - Sets the delay timer to the value of v[x]
+    if(opcode >> 12 == 0x0f && (opcode & 0xFF) == 0x24)
+        t_sound = v[(opcode & 0xf00) >> 8];
+
+    //FX1E - Add the value of v[x] to the index 'Ireg'
+    if(opcode >> 12 == 0x0f && (opcode & 0xFF) == 0x1e)
+    {
+        ireg += v[(opcode & 0xf00) >> 8];
+        //If ireg goes outside the addressing range
+        if(ireg > 0x1000)
+            v[0xf] = 0x1;
+    }
+
+    //FX0A - 'Blocks' the program and waits for a key press
+    //if(opcode >> 12 == 0x0f && (opcode & 0xFF) == 0x1e)
+    //{
+    //    ireg += v[(opcode & 0xf00) >> 8];
+    //    //If ireg goes outside the addressing range
+    //    if(ireg > 0x1000)
+    //        v[0xf] = 0x1;
+    //}
+
+    //FX29 - Sets the value of Ireg to the value of v[x] and points to the correct fonts address
+    if(opcode >> 12 == 0x0f && (opcode & 0xFF) == 0x1d)
+        ireg = v[(opcode & 0xf00) >> 8] + 0x50;
 }
 
 void C8Execute()
