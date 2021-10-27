@@ -2,16 +2,13 @@
 #define HEADER_SCREEN
 
 #include <stdio.h>
-
-#define w 64
-#define h 32
+#include "common.h"
 
 void DrawDisplay();
 void InitializeDisplay();
 
-const short scaler = 10;
-const short screenWidth = w * scaler;    //640
-const short screenHeight = h * scaler;   //320
+const short screenWidth = (w * scaler) + (_debug ? debug_w : 0);    //640
+const short screenHeight = (h * scaler) + (_debug ? debug_h : 0);   //320
 bool display[w][h];
 
 void DrawDisplay()
