@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <conio.h>
 #include "common.h"
 #include "debugger.h"
 
@@ -14,9 +15,12 @@
 int main() 
 {
     InitWindow(screenWidth, screenHeight, "CHIP-8 Emulator");
-    SetTargetFPS(60);
+    SetTargetFPS(10);
 
     ClearMemory();
+
+    if(_debug)
+        InitDebug();
 
     //Opens the ROM file (make this dynamic later inside "rom.h")
     FILE *fs;
@@ -26,30 +30,54 @@ int main()
 
     InitializeDisplay();
 
+    bool stopped = false; //No Action
+    bool step = false;
+
     // Main game loop
     while (!WindowShouldClose())
     {
         ClearBackground(BLACK);
-        GuiLoadStyle("lavanda.rgs");
-        
-        int aux = 0;
-        while(aux < 11)
+        //GuiLoadStyle("lavanda.rgs");
+
+        if(IsKeyPressed(KEY_SPACE))
+            stopped = !stopped;
+
+        if(stopped)
         {
-            C8Fetch();
-            C8Decode();
-            aux++;
+            if(IsKeyPressed(KEY_PERIOD)) //Forward
+                step = true;
         }
+        
+        //int aux = 0;
+        //while(aux < 11)
+        //{
+        //    aux++;
+        //}
 
-        BeginDrawing();
-
-        C8Execute();
-        DrawDisplay(); //Push the drawDisplay to C8Execute();
-
-        if(_debug)
+        if (_debug)
         {
             DrawDebugger();
             UpdateDebug();
         }
+
+        if (!stopped)
+        {
+            C8Fetch();
+            C8Decode();
+        }
+        else
+        {
+            if(stopped && step)
+            {
+                C8Fetch();
+                C8Decode();
+                step = false;
+            }
+        }
+
+        BeginDrawing();
+
+        DrawDisplay(); //Push the drawDisplay to C8Execute();
 
         EndDrawing();
     }
