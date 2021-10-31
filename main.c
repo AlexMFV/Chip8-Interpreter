@@ -15,7 +15,7 @@
 int main() 
 {
     InitWindow(screenWidth, screenHeight, "CHIP-8 Emulator");
-    SetTargetFPS(10);
+    SetTargetFPS(60);
 
     ClearMemory();
 
@@ -37,7 +37,7 @@ int main()
     while (!WindowShouldClose())
     {
         ClearBackground(BLACK);
-        //GuiLoadStyle("lavanda.rgs");
+        GuiLoadStyle("cyber.rgs");
 
         if(IsKeyPressed(KEY_SPACE))
             stopped = !stopped;
@@ -78,6 +78,15 @@ int main()
         BeginDrawing();
 
         DrawDisplay(); //Push the drawDisplay to C8Execute();
+
+        if(t_delay > 0x0 && !stopped)
+            t_delay -= 0x1;
+        else
+            if(t_delay > 0x0 && stopped && step)
+            {
+                t_delay -= 0x1;
+                step = false;
+            }
 
         EndDrawing();
     }

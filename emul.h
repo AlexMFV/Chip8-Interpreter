@@ -60,34 +60,39 @@ void C8Decode()
     }
 
     //00EE - Pops the first memory address from the stack
-    //if(opcode == 0x00ee)
-    //{
-    //    pc = stack[0x0];
-//
-    //    unsigned char aux = 0x0;
-    //    while(aux < sizeof stack - 1)
-    //    {
-    //        stack[aux] = stack[aux+1];
-    //        aux++;
-    //    }
-//
-    //    stack_trace--;
-    //    return;
-    //}
+    if(opcode == 0x00ee)
+    {
+        pc = stack[stack_trace-1];
+        stack[stack_trace-1] = 0x0;
+        stack_trace--;
+
+        //pc = stack[0x0];
+        //
+        //unsigned char aux = 0x0;
+        //while(aux < sizeof stack - 1)
+        //{
+        //    stack[aux] = stack[aux+1];
+        //    aux++;
+        //}
+        //
+        //stack_trace--;
+        //return;
+    }
 
     //1NNN - Set PC to NNN memory location
-    if(opcode >> 12 == 0x1)
+    if(opcode >> 12 == 0x1) 
     {
         pc = (opcode & 0x0fff);
     }
 
     //2NNN - Set PC to NNN memory location
-    //if(opcode >> 12 == 0x2)
-    //{
-    //    stack[stack_trace] = (opcode & 0x0fff);
-    //    stack_trace++;
-    //    return;
-    //}
+    if(opcode >> 12 == 0x2)
+    {
+        stack[stack_trace] = pc;
+        stack_trace++;
+        pc = (opcode & 0x0fff);
+        return;
+    }
 
     //3XNN - Skips one instruction if v[x] == NN
     if(opcode >> 12 == 0x3 && v[(opcode & 0xf00) >> 8] == (opcode & 0xff))
@@ -235,7 +240,7 @@ void C8Decode()
     }
 
     //FX15 - Sets the delay timer to the value of v[x]
-    if(opcode >> 12 == 0x0f && (opcode & 0xFF) == 0x0f)
+    if(opcode >> 12 == 0x0f && (opcode & 0xFF) == 0x15)
     {
         t_delay = v[(opcode & 0xf00) >> 8];
     }

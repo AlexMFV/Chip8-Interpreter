@@ -13,7 +13,8 @@ unsigned short *db_stack[n_lines];
 unsigned short db_pc = 0x200;
 unsigned short db_opcode = 0x0;
 char buffer[4];
-char instBuffer[10];
+int instBuffer[10];
+int regBuffer[10];
 bool isLoop = false;
 unsigned short prev_pc = 0x0;
 
@@ -70,11 +71,54 @@ void DrawDebugger()
         buffer[2] = ConvertToChar((db_opcode & 0xf0) >> 4);
         buffer[3] = ConvertToChar((db_opcode & 0xf));
 
-        itoa(db_pc + (i * 2), instBuffer, 10);
+        itoa(db_pc + (i * 2), instBuffer, 16);
         strcat(instBuffer, " - ");
         strcat(instBuffer, buffer);
 
         DrawText(instBuffer, screenW + 10, top_offset + (font_size * i), font_size, WHITE);
+
+        for(int i = 0; i < sizeof(v)/2; i++)
+        {
+            char extra[10];
+            strcat(regBuffer, "#V");
+            itoa(i, extra, 10);            
+            strcat(regBuffer, extra);
+            strcat(regBuffer, " - ");
+            itoa(v[i], extra, 16);            
+            strcat(regBuffer, extra);
+
+            DrawText(regBuffer, 5, (screenH + 10) + (20*i), font_size, WHITE);
+
+            memset(regBuffer, 0, sizeof regBuffer);
+        }
+
+        for(int i = 0; i < sizeof(v)/2; i++)
+        {
+            char extra[10];
+            strcat(regBuffer, "#V");
+            itoa(i+8, extra, 10);
+            strcat(regBuffer, extra);
+            strcat(regBuffer, " - ");
+            itoa(v[i+8], extra, 16);
+            strcat(regBuffer, extra);
+            
+            DrawText(regBuffer, 150, (screenH + 10) + (20*i), font_size, WHITE);
+
+            memset(regBuffer, 0, sizeof regBuffer);
+        }
+
+        char extra[10];
+        itoa(t_delay, extra, 10);
+        strcat(regBuffer, "delay: ");
+        strcat(regBuffer, extra);
+        DrawText(regBuffer, 300, (screenH + 10), font_size, WHITE);
+        memset(regBuffer, 0, sizeof regBuffer);
+
+        itoa(t_sound, extra, 10);
+        strcat(regBuffer, "sound: ");
+        strcat(regBuffer, extra);
+        DrawText(regBuffer, 300, (screenH + 30), font_size, WHITE);
+        memset(regBuffer, 0, sizeof regBuffer);
 
         memset(instBuffer, 0, sizeof instBuffer);
         memset(buffer, 0, sizeof buffer);
