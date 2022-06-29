@@ -131,31 +131,31 @@ void C8Decode()
     }
 
     //8XY0 - Set v[x] to the value of v[y]
-    if(opcode >> 12 == 0x8)
+    if(opcode >> 12 == 0x8 && (opcode & 0xf) == 0x0)
     {
         v[(opcode & 0xf00) >> 8] = v[(opcode & 0xf0) >> 4];
     }
 
     //8XY1 - Set v[x] to the value of v[x] | v[y]
-    if(opcode >> 12 == 0x8)
+    if(opcode >> 12 == 0x8 && (opcode & 0xf) == 0x1)
     {
-        v[(opcode & 0xf00) >> 8] = (v[(opcode & 0xf00) >> 8] | v[(opcode & 0xf0) >> 4]);
+        v[(opcode & 0xf00) >> 8] |= v[(opcode & 0xf0) >> 4];
     }
 
     //8XY2 - Set v[x] to the value of v[x] & v[y]
-    if(opcode >> 12 == 0x8)
+    if(opcode >> 12 == 0x8 && (opcode & 0xf) == 0x2)
     {
         v[(opcode & 0xf00) >> 8] = (v[(opcode & 0xf00) >> 8] & v[(opcode & 0xf0) >> 4]);
     }
 
     //8XY3 - Set v[x] to the value of v[x] ^ v[y]
-    if(opcode >> 12 == 0x8)
+    if(opcode >> 12 == 0x8 && (opcode & 0xf) == 0x3)
     {
         v[(opcode & 0xf00) >> 8] = (v[(opcode & 0xf00) >> 8] ^ v[(opcode & 0xf0) >> 4]);
     }
 
     //8XY4 - Set v[x] to the value of v[x] + v[y]
-    if(opcode >> 12 == 0x8)
+    if(opcode >> 12 == 0x8 && (opcode & 0xf) == 0x4)
     {
         if((v[(opcode & 0xf00) >> 8] + v[(opcode & 0xf0) >> 4]) > 255)
             v[0xf] = 0x1;
@@ -165,7 +165,7 @@ void C8Decode()
     }
 
     //8XY5 - Set v[x] to the value of v[x] - v[y]. Affecting the v[0xf] flag
-    if(opcode >> 12 == 0x8)
+    if(opcode >> 12 == 0x8 && (opcode & 0xf) == 0x5)
     {
         if(v[(opcode & 0xf00) >> 8] > v[(opcode & 0xf0) >> 4])
             v[0xf] = 0x1;
@@ -175,7 +175,7 @@ void C8Decode()
     }
 
     //8XY7 - Set v[x] to the value of v[y] - v[x]. Affecting the v[0xf] flag
-    if(opcode >> 12 == 0x8)
+    if(opcode >> 12 == 0x8 && (opcode & 0xf) == 0x7)
     {
         if(v[(opcode & 0xf0) >> 4] > v[(opcode & 0xf00) >> 8])
             v[0xf] = 0x1;
@@ -240,13 +240,13 @@ void C8Decode()
     }
 
     //FX15 - Sets the delay timer to the value of v[x]
-    if(opcode >> 12 == 0x0f && (opcode & 0xFF) == 0x15)
+    if(opcode >> 12 == 0x0f && (opcode & 0xFF) == 0xf) //was 0x15
     {
         t_delay = v[(opcode & 0xf00) >> 8];
     }
 
     //FX18 - Sets the delay timer to the value of v[x]
-    if(opcode >> 12 == 0x0f && (opcode & 0xFF) == 0x24)
+    if(opcode >> 12 == 0x0f && (opcode & 0xFF) == 0x12) //was 0x24 for some reason
     {
         t_sound = v[(opcode & 0xf00) >> 8];
     }

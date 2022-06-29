@@ -31,7 +31,7 @@ int main()
     InitializeDisplay();
 
     bool stopped = false; //No Action
-    bool step = false;
+    bool step = true;
 
     // Main game loop
     while (!WindowShouldClose())
@@ -76,7 +76,6 @@ int main()
         }
 
         BeginDrawing();
-
         DrawDisplay(); //Push the drawDisplay to C8Execute();
 
         if(t_delay > 0x0 && !stopped)
