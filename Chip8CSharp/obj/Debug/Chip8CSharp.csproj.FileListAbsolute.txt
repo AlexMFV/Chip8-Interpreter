@@ -9,3 +9,7 @@ C:\Users\Alex\Desktop\Repos\Chip8-Interpreter\Chip8CSharp\obj\Debug\Chip8CSharp.
 C:\Users\Alex\Desktop\Repos\Chip8-Interpreter\Chip8CSharp\obj\Debug\Chip8CSharp.exe
 C:\Users\Alex\Desktop\Repos\Chip8-Interpreter\Chip8CSharp\obj\Debug\Chip8CSharp.pdb
 C:\Users\Alex\Desktop\Repos\Chip8-Interpreter\Chip8CSharp\obj\Debug\Chip8CSharp.formScreen.resources
+C:\Users\Alex\Desktop\Repos\Chip8-Interpreter\Chip8CSharp\bin\Debug\OpenTK.dll
+C:\Users\Alex\Desktop\Repos\Chip8-Interpreter\Chip8CSharp\bin\Debug\OpenTK.pdb
+C:\Users\Alex\Desktop\Repos\Chip8-Interpreter\Chip8CSharp\bin\Debug\OpenTK.xml
+C:\Users\Alex\Desktop\Repos\Chip8-Interpreter\Chip8CSharp\obj\Debug\Chip8CSharp.csproj.CopyComplete

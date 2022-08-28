@@ -33,6 +33,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="OpenTK, Version=3.3.2.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL">
+      <HintPath>packages\OpenTK.3.3.2\lib\net20\OpenTK.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -49,6 +52,7 @@
     <Compile Include="Classes\Emulator.cs" />
     <Compile Include="Classes\Rom.cs" />
     <Compile Include="Classes\Specs.cs" />
+    <Compile Include="Classes\Window.cs" />
     <Compile Include="formScreen.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -69,6 +73,8 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <None Include="OpenTK.dll.config" />
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

@@ -16,7 +16,11 @@ namespace Chip8CSharp
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new formScreen());
+            using (var window = new Window(Specs.DISPLAY_WIDTH*Specs.DISPLAY_SCALE,
+                Specs.DISPLAY_HEIGHT*Specs.DISPLAY_SCALE, "Chip-8 Emulator"))
+            {
+                window.Run(Specs.REFRESH_RATE / 1000);
+            }
         }
     }
 }
