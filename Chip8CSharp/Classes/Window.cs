@@ -29,7 +29,8 @@ namespace Chip8CSharp
             GL.Ortho(0.0, Specs.DISPLAY_WIDTH * Specs.DISPLAY_SCALE, Specs.DISPLAY_HEIGHT * Specs.DISPLAY_SCALE, 0.0, -1.0, 1.0);
             GL.MatrixMode(MatrixMode.Modelview);
 
-            Rom.LoadRom("ibm.ch8");
+            Rom.LoadRom("spaceinvaders.ch8");
+            Specs.BootSequence();
         }
 
         protected override void OnUpdateFrame(FrameEventArgs e)

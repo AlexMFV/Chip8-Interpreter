@@ -23,7 +23,7 @@ namespace Chip8CSharp
         public static void DrawPixel(int y, int x)
         {
             GL.Begin(PrimitiveType.QuadsExt);
-            GL.Color3(Color.Lime);
+            GL.Color3(Color.Purple);
             GL.Vertex2(x, y);
             GL.Vertex2(x + Specs.DISPLAY_SCALE, y);
             GL.Vertex2(x + Specs.DISPLAY_SCALE, y + Specs.DISPLAY_SCALE);
@@ -36,9 +36,8 @@ namespace Chip8CSharp
             Specs.Fetch();
 
             Specs.Decode();
-            Specs.ProcessOpcode();
 
-            Specs.Execute();
+            Specs.ProcessOpcode();
         }
     }
 }
