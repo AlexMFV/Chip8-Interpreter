@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Media;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -29,6 +30,7 @@ namespace Chip8CSharp
         public static ushort opcode = 0x0;
         public static bool hasInput = false;
         public static byte keyPressed = 0x0;
+        public static bool playSound = false;
 
         //Rom
         public static byte[] rom;
@@ -78,6 +80,7 @@ namespace Chip8CSharp
         {
             ClearMemory();
             InstantiateFont();
+            InstantiateSound();
             LoadRomToMemory();
             System.Threading.Timer t_delay = new System.Threading.Timer(DecrementDelay, null, 0, 1000 / REFRESH_RATE);
             System.Threading.Timer t_sound = new System.Threading.Timer(DecrementSound, null, 0, 1000 / REFRESH_RATE);
@@ -118,6 +121,20 @@ namespace Chip8CSharp
         {
             for(int i = 0; i < font.Length; i++)
                 memory[0x50+i] = font[i];
+        }
+
+        public static void InstantiateSound()
+        {
+            Task.Factory.StartNew(() => PlaySound());
+        }
+
+        public static void PlaySound()
+        {
+            while (true)
+            {
+                while (Specs.sound_timer > 0)
+                    Console.Beep();
+            }
         }
 
         public static void LoadRomToMemory()

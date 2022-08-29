@@ -19,7 +19,8 @@ namespace Chip8CSharp
             using (var window = new Window(Specs.DISPLAY_WIDTH*Specs.DISPLAY_SCALE,
                 Specs.DISPLAY_HEIGHT*Specs.DISPLAY_SCALE, "Chip-8 Emulator"))
             {
-                window.Run(Specs.REFRESH_RATE / 1000);
+                window.VSync = OpenTK.VSyncMode.Off;
+                window.Run(Specs.REFRESH_RATE, Specs.REFRESH_RATE);
             }
         }
     }

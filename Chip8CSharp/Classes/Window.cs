@@ -17,11 +17,11 @@ namespace Chip8CSharp
         protected override void OnLoad(EventArgs e)
         {
             base.OnLoad(e);
-            this.TargetUpdateFrequency = Specs.REFRESH_RATE;
-            this.TargetUpdatePeriod = Specs.REFRESH_RATE / 1000;
-
-            this.TargetRenderFrequency = this.TargetUpdateFrequency;
-            this.TargetRenderPeriod = this.TargetUpdatePeriod;
+            //this.TargetUpdateFrequency = Specs.REFRESH_RATE;
+            //this.TargetUpdatePeriod = 1000 / Specs.REFRESH_RATE;
+            //
+            //this.TargetRenderFrequency = this.TargetUpdateFrequency;
+            //this.TargetRenderPeriod = this.TargetUpdatePeriod;
 
             GL.Viewport(0, 0, Specs.DISPLAY_WIDTH * Specs.DISPLAY_SCALE, Specs.DISPLAY_HEIGHT * Specs.DISPLAY_SCALE);
             GL.MatrixMode(MatrixMode.Projection);
