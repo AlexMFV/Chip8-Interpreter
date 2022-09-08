@@ -1,0 +1,15 @@
+C:\Users\Alex\Desktop\Repos\Chip8-Interpreter\Chip8CSharp\bin\Release\Chip8CSharp.exe.config
+C:\Users\Alex\Desktop\Repos\Chip8-Interpreter\Chip8CSharp\bin\Release\Chip8CSharp.exe
+C:\Users\Alex\Desktop\Repos\Chip8-Interpreter\Chip8CSharp\bin\Release\Chip8CSharp.pdb
+C:\Users\Alex\Desktop\Repos\Chip8-Interpreter\Chip8CSharp\bin\Release\OpenTK.dll
+C:\Users\Alex\Desktop\Repos\Chip8-Interpreter\Chip8CSharp\bin\Release\OpenTK.pdb
+C:\Users\Alex\Desktop\Repos\Chip8-Interpreter\Chip8CSharp\bin\Release\OpenTK.xml
+C:\Users\Alex\Desktop\Repos\Chip8-Interpreter\Chip8CSharp\obj\Release\Chip8CSharp.csproj.AssemblyReference.cache
+C:\Users\Alex\Desktop\Repos\Chip8-Interpreter\Chip8CSharp\obj\Release\Chip8CSharp.csproj.SuggestedBindingRedirects.cache
+C:\Users\Alex\Desktop\Repos\Chip8-Interpreter\Chip8CSharp\obj\Release\Chip8CSharp.formScreen.resources
+C:\Users\Alex\Desktop\Repos\Chip8-Interpreter\Chip8CSharp\obj\Release\Chip8CSharp.Properties.Resources.resources
+C:\Users\Alex\Desktop\Repos\Chip8-Interpreter\Chip8CSharp\obj\Release\Chip8CSharp.csproj.GenerateResource.cache
+C:\Users\Alex\Desktop\Repos\Chip8-Interpreter\Chip8CSharp\obj\Release\Chip8CSharp.csproj.CoreCompileInputs.cache
+C:\Users\Alex\Desktop\Repos\Chip8-Interpreter\Chip8CSharp\obj\Release\Chip8CSharp.csproj.CopyComplete
+C:\Users\Alex\Desktop\Repos\Chip8-Interpreter\Chip8CSharp\obj\Release\Chip8CSharp.exe
+C:\Users\Alex\Desktop\Repos\Chip8-Interpreter\Chip8CSharp\obj\Release\Chip8CSharp.pdb

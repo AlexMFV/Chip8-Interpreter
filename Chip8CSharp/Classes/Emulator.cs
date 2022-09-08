@@ -33,11 +33,14 @@ namespace Chip8CSharp
 
         public static void GameLoop()
         {
-            Specs.Fetch();
+            //for (int i = 0; i < 8; i++)
+            //{
+                Specs.Fetch();
 
-            Specs.Decode();
+                Specs.Decode();
 
-            Specs.ProcessOpcode();
+                Specs.ProcessOpcode();
+            //}
         }
     }
 }

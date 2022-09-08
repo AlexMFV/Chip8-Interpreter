@@ -13,7 +13,7 @@ namespace Chip8CSharp
         public static int DISPLAY_WIDTH = 64;
         public static int DISPLAY_HEIGHT = 32;
         public static int DISPLAY_SCALE = 10;
-        public static int REFRESH_RATE = 60;
+        public static int REFRESH_RATE = 200; //60
 
         //Specifications
         public static byte[] memory = new byte[4096]; //4KB of RAM - char = 1 byte
@@ -29,7 +29,7 @@ namespace Chip8CSharp
         public static byte[] v = new byte[16]; //Registers named from 0 to F (hex)
         public static ushort opcode = 0x0;
         public static bool hasInput = false;
-        public static byte keyPressed = 0x0;
+        public static byte keyPressed = 0xff;
         public static bool playSound = false;
 
         //Rom
@@ -269,6 +269,21 @@ namespace Chip8CSharp
                     ProcessDisplay();
                     break;
 
+                case 0xe:
+                    switch (opcode & 0xff)
+                    {
+                        case 0x9e:
+                            if (keyPressed == v[op_X])
+                                pc += 0x2;
+                            break;
+
+                        case 0xa1:
+                            if (keyPressed != v[op_X])
+                                pc += 0x2;
+                            break;
+                    }
+                    break;
+                    
                 case 0xf:
                     switch(opcode & 0xff)
                     {
@@ -292,15 +307,21 @@ namespace Chip8CSharp
                             ireg += (ushort)(v[op_X] + 0x50);
                             break;
                         case 0x33: break;
-                        case 0x55: break;
-                        case 0x65: break;
+                        case 0x55:
+                            for (byte i = 0x0; i <= op_X; i += 0x1)
+                                memory[ireg + i] = v[i];
+                            break;
+                        case 0x65:
+                            for (byte i = 0x0; i <= op_X; i += 0x1)
+                                v[i] = memory[ireg + i];
+                            break;
                     }
                     break;
 
                 default: break;
             }
             hasInput = false;
-            keyPressed = 0x0;
+            keyPressed = 0xff;
         }
 
         public static void ProcessDisplay()
