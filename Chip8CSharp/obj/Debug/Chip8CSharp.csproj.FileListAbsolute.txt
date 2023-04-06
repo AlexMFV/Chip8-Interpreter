@@ -13,3 +13,17 @@ C:\Users\Alex\Desktop\Repos\Chip8-Interpreter\Chip8CSharp\bin\Debug\OpenTK.dll
 C:\Users\Alex\Desktop\Repos\Chip8-Interpreter\Chip8CSharp\bin\Debug\OpenTK.pdb
 C:\Users\Alex\Desktop\Repos\Chip8-Interpreter\Chip8CSharp\bin\Debug\OpenTK.xml
 C:\Users\Alex\Desktop\Repos\Chip8-Interpreter\Chip8CSharp\obj\Debug\Chip8CSharp.csproj.CopyComplete
+C:\Users\alexandre.valente\Desktop\Repo\Chip8-Interpreter\Chip8CSharp\obj\Debug\Chip8CSharp.csproj.AssemblyReference.cache
+C:\Users\alexandre.valente\Desktop\Repo\Chip8-Interpreter\Chip8CSharp\obj\Debug\Chip8CSharp.csproj.SuggestedBindingRedirects.cache
+C:\Users\alexandre.valente\Desktop\Repo\Chip8-Interpreter\Chip8CSharp\obj\Debug\Chip8CSharp.formScreen.resources
+C:\Users\alexandre.valente\Desktop\Repo\Chip8-Interpreter\Chip8CSharp\obj\Debug\Chip8CSharp.Properties.Resources.resources
+C:\Users\alexandre.valente\Desktop\Repo\Chip8-Interpreter\Chip8CSharp\obj\Debug\Chip8CSharp.csproj.GenerateResource.cache
+C:\Users\alexandre.valente\Desktop\Repo\Chip8-Interpreter\Chip8CSharp\obj\Debug\Chip8CSharp.csproj.CoreCompileInputs.cache
+C:\Users\alexandre.valente\Desktop\Repo\Chip8-Interpreter\Chip8CSharp\bin\Debug\Chip8CSharp.exe.config
+C:\Users\alexandre.valente\Desktop\Repo\Chip8-Interpreter\Chip8CSharp\bin\Debug\Chip8CSharp.exe
+C:\Users\alexandre.valente\Desktop\Repo\Chip8-Interpreter\Chip8CSharp\bin\Debug\Chip8CSharp.pdb
+C:\Users\alexandre.valente\Desktop\Repo\Chip8-Interpreter\Chip8CSharp\bin\Debug\OpenTK.dll
+C:\Users\alexandre.valente\Desktop\Repo\Chip8-Interpreter\Chip8CSharp\bin\Debug\OpenTK.pdb
+C:\Users\alexandre.valente\Desktop\Repo\Chip8-Interpreter\Chip8CSharp\obj\Debug\Chip8CSharp.csproj.CopyComplete
+C:\Users\alexandre.valente\Desktop\Repo\Chip8-Interpreter\Chip8CSharp\obj\Debug\Chip8CSharp.exe
+C:\Users\alexandre.valente\Desktop\Repo\Chip8-Interpreter\Chip8CSharp\obj\Debug\Chip8CSharp.pdb

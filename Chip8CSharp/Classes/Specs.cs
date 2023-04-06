@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Media;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -13,7 +14,7 @@ namespace Chip8CSharp
         public static int DISPLAY_WIDTH = 64;
         public static int DISPLAY_HEIGHT = 32;
         public static int DISPLAY_SCALE = 10;
-        public static int REFRESH_RATE = 200; //60
+        public static int REFRESH_RATE = 60; //60
 
         //Specifications
         public static byte[] memory = new byte[4096]; //4KB of RAM - char = 1 byte
@@ -82,11 +83,11 @@ namespace Chip8CSharp
             InstantiateFont();
             InstantiateSound();
             LoadRomToMemory();
-            System.Threading.Timer t_delay = new System.Threading.Timer(DecrementDelay, null, 0, 1000 / REFRESH_RATE);
-            System.Threading.Timer t_sound = new System.Threading.Timer(DecrementSound, null, 0, 1000 / REFRESH_RATE);
+            //System.Threading.Timer t_delay = new System.Threading.Timer(DecrementDelay, null, 0, 1000 / REFRESH_RATE);
+            //System.Threading.Timer t_sound = new System.Threading.Timer(DecrementSound, null, 0, 1000 / REFRESH_RATE);
         }
 
-        public static void DecrementDelay(object a)
+        public static void DecrementDelay()
         {
             if (delay_timer < 0)
                 delay_timer = 0;
@@ -95,7 +96,7 @@ namespace Chip8CSharp
                 delay_timer--;
         }
 
-        public static void DecrementSound(object a)
+        public static void DecrementSound()
         {
             if(sound_timer < 0)
                 sound_timer = 0;
@@ -167,6 +168,7 @@ namespace Chip8CSharp
         public static void ProcessOpcode()
         {
             Console.WriteLine("{0} - {1:X}", pc, opcode);
+            byte shifted;
 
             //0x00e0 - Clears the screen
             if (opcode == 0x00e0)
@@ -236,7 +238,14 @@ namespace Chip8CSharp
 
                             v[op_X] -= v[op_Y];
                             break; //Subtract
-                        case 0x6: break;
+                        case 0x6:
+                            shifted = (byte)(v[op_X] & 0xf);
+                            if (shifted == 0x1)
+                                v[0xf] = 0x1;
+                            else
+                                v[0xf] = 0x0;
+                            v[op_X] = (byte)(v[op_X] >> 1);
+                            break;
                         case 0x7:
                             if (v[op_Y] > v[op_X])
                                 v[0xf] = 0x1;
@@ -245,7 +254,14 @@ namespace Chip8CSharp
 
                             v[op_X] = (byte)(v[op_Y] - v[op_X]);
                             break; //Subtract
-                        case 0xe: break;
+                        case 0xe:
+                            shifted = (byte)(v[op_X] & 0xf);
+                            if (shifted == 0x1)
+                                v[0xf] = 0x1;
+                            else
+                                v[0xf] = 0x0;
+                            v[op_X] = (byte)(v[op_X] << 1);
+                            break;
                         default: break;
                     }
                     break;
@@ -306,7 +322,15 @@ namespace Chip8CSharp
                         case 0x29:
                             ireg += (ushort)(v[op_X] + 0x50);
                             break;
-                        case 0x33: break;
+                        case 0x33:
+                            int length = v[op_X].ToString().Length;
+                            int value = v[op_X];
+                            for(int i = length-1; i >= 0; i--)
+                            {
+                                memory[ireg + i] = (byte)(value % 10);
+                                value /= 10;
+                            }
+                            break;
                         case 0x55:
                             for (byte i = 0x0; i <= op_X; i += 0x1)
                                 memory[ireg + i] = v[i];

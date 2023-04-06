@@ -33,14 +33,22 @@ namespace Chip8CSharp
 
         public static void GameLoop()
         {
-            //for (int i = 0; i < 8; i++)
-            //{
+            //Since the screen updates at 60Hz during each Hz we run 11 times
+            //this equates to around 700 instructions per second
+            //while maintaining the original 60Hz screen refresh rate
+            //Eventually this can be made configurable
+            for (int i = 0; i < 11; i++)
+            {
                 Specs.Fetch();
 
                 Specs.Decode();
 
                 Specs.ProcessOpcode();
-            //}
+            }
+
+            //The decrements are outside the main loop so that they decrease 60 times per second
+            Specs.DecrementDelay();
+            Specs.DecrementSound();
         }
     }
 }

@@ -15,8 +15,6 @@ namespace Chip8CSharp
             if (File.Exists(fullPath))
             {
                 Specs.rom = File.ReadAllBytes(fullPath);
-                //for(int i = 0; i < rom.Length; i++)
-                //    Specs.memory[Specs.pc + i] = rom[i];
             }
         }
 
